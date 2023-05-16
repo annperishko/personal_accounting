@@ -31,13 +31,13 @@ public class ReportingController
         return ResponseEntity.ok(transactionService.findAllByUserId(userId));
     }
 
-    @GetMapping("/{userId}/{category}")
+    @GetMapping("/{userId}/category/{category}")
     public ResponseEntity<List<Transaction>> findAllByCategory(@PathVariable Integer userId, @PathVariable String category)
     {
         return ResponseEntity.ok(transactionService.findAllByCategory(userId, category));
     }
 
-    @GetMapping("/{userId}/{transactionType}")
+    @GetMapping("/{userId}/type/{transactionType}")
     public ResponseEntity<List<Transaction>> findAllByType(@PathVariable Integer userId, @PathVariable String transactionType)
     {
         return ResponseEntity.ok(transactionService.findAllByUserIdAndTransactionType(userId, transactionType));

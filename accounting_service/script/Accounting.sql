@@ -1,8 +1,6 @@
 CREATE SCHEMA IF NOT EXISTS accounting;
 USE accounting;
 
-DROP TABLE users;
-
 CREATE TABLE IF NOT EXISTS users( id INT NOT NULL AUTO_INCREMENT,
                                          email text NOT NULL,
                                          account DECIMAL NOT NULL,

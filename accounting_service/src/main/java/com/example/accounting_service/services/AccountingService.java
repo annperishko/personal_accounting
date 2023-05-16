@@ -50,11 +50,11 @@ public class AccountingService
                 transactionDto.setUserId(user.getId());
                 if (Objects.equals(transactionDto.getTransactionType().toUpperCase(), TransactionType.EXPENSE.name()))
                 {
-                    user.setAccount(user.getAccount().add(transactionDto.getAmount()));
+                    user.setAccount(user.getAccount().subtract(transactionDto.getAmount()));
                 }
                 else if (Objects.equals(transactionDto.getTransactionType().toUpperCase(), TransactionType.EARNING.name()))
                 {
-                    user.setAccount(user.getAccount().subtract(transactionDto.getAmount()));
+                    user.setAccount(user.getAccount().add(transactionDto.getAmount()));
                 }
                 else
                 {
@@ -73,6 +73,27 @@ public class AccountingService
             return false;
         }
 
+    }
+
+    public boolean createUser(UserDto userDto)
+    {
+        if (userDto != null)
+        {
+            User newUser = new User();
+            newUser.setEmail(userDto.getEmail());
+            newUser.setAccount(userDto.getAccount());
+
+            usersRepo.save(newUser);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    @Transactional
+    public void deleteUserById(Integer userId)
+    {
+        usersRepo.deleteById(userId);
     }
 
 }

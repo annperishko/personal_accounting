@@ -52,8 +52,25 @@ public class AccountController
             return new ResponseEntity<>("User doesn`t exist", HttpStatus.UNAUTHORIZED);
         }
 
-
     }
 
+    @PostMapping("/user")
+    public ResponseEntity<String> createUser(@RequestBody UserDto userDto)
+    {
 
+        if(accountingService.createUser(userDto))
+        {
+            return ResponseEntity.ok("User created");
+        }
+        else
+        {
+            return new ResponseEntity<>("Can`t create user", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/remove/{userId}")
+    public ResponseEntity<String> deleteUserById(@PathVariable int userId) {
+        accountingService.deleteUserById(userId);
+        return ResponseEntity.ok("Deleted user");
+    }
 }
