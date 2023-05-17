@@ -26,19 +26,7 @@ public class AccountingService
         this.kafkaProducer = kafkaProducer;
     }
 
-    public UserDto getUserByEmail(String email) {
-        try
-        {
-            User user = usersRepo.findUserByEmail(email);
-            return user.mapToDto();
 
-        }
-        catch (RuntimeException e)
-        {
-            LOGGER.debug("Can`t find user");
-            return null;
-        }
-    }
     @Transactional
     public boolean saveTransaction(String email, TransactionDto transactionDto)
     {
@@ -73,27 +61,6 @@ public class AccountingService
             return false;
         }
 
-    }
-
-    public boolean createUser(UserDto userDto)
-    {
-        if (userDto != null)
-        {
-            User newUser = new User();
-            newUser.setEmail(userDto.getEmail());
-            newUser.setAccount(userDto.getAccount());
-
-            usersRepo.save(newUser);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    @Transactional
-    public void deleteUserById(Integer userId)
-    {
-        usersRepo.deleteById(userId);
     }
 
 }

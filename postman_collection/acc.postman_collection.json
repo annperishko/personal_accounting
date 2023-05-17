@@ -14,7 +14,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/account/test@email.com",
+							"raw": "http://localhost:8080/user/test@email.com",
 							"protocol": "http",
 							"host": [
 								"localhost"

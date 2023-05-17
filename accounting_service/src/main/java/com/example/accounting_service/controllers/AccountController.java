@@ -3,6 +3,7 @@ package com.example.accounting_service.controllers;
 import com.example.accounting_service.dto.TransactionDto;
 import com.example.accounting_service.dto.UserDto;
 import com.example.accounting_service.services.AccountingService;
+import com.example.accounting_service.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,30 +13,18 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController
 {
     private final AccountingService accountingService;
+    private final UserService userService;
 
-    public AccountController(AccountingService accountingService)
+    public AccountController(AccountingService accountingService, UserService userService)
     {
         this.accountingService = accountingService;
-    }
-
-    @GetMapping("/{email}")
-    public ResponseEntity<UserDto> getUser(@PathVariable String email)
-    {
-        UserDto userDto = accountingService.getUserByEmail(email);
-        if(userDto != null)
-        {
-            return ResponseEntity.ok(accountingService.getUserByEmail(email));
-        }
-        else
-        {
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        }
+        this.userService = userService;
     }
 
     @PostMapping("/{email}/save")
     public ResponseEntity<String> saveNewTransaction(@PathVariable String email, @RequestBody TransactionDto transactionDto)
     {
-        UserDto userDto = accountingService.getUserByEmail(email);
+        UserDto userDto = userService.getUserByEmail(email);
         if(userDto != null)
         {
             if(accountingService.saveTransaction(email, transactionDto))
@@ -54,23 +43,4 @@ public class AccountController
 
     }
 
-    @PostMapping("/user")
-    public ResponseEntity<String> createUser(@RequestBody UserDto userDto)
-    {
-
-        if(accountingService.createUser(userDto))
-        {
-            return ResponseEntity.ok("User created");
-        }
-        else
-        {
-            return new ResponseEntity<>("Can`t create user", HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @DeleteMapping("/remove/{userId}")
-    public ResponseEntity<String> deleteUserById(@PathVariable int userId) {
-        accountingService.deleteUserById(userId);
-        return ResponseEntity.ok("Deleted user");
-    }
 }
