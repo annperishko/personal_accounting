@@ -2,7 +2,6 @@ package com.example.accounting_service.services;
 
 import com.example.accounting_service.dao.UsersRepo;
 import com.example.accounting_service.dto.TransactionDto;
-import com.example.accounting_service.dto.UserDto;
 import com.example.accounting_service.entities.User;
 import com.example.accounting_service.enums.TransactionType;
 import com.example.accounting_service.kafka.KafkaProducer;
