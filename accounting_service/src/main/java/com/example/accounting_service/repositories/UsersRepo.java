@@ -1,4 +1,4 @@
-package com.example.accounting_service.dao;
+package com.example.accounting_service.repositories;
 
 import com.example.accounting_service.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;

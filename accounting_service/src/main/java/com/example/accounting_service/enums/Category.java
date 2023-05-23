@@ -1,10 +1,10 @@
 package com.example.accounting_service.enums;
 
-public enum TransactionType
-{
-    EARNING(0), EXPENSE(1);
+public enum Category {
+    SALARY(0), POCKET(0), OTHER_EARNING(0),
+    FOOD(1), MEDICINE(1), EDUCATION(1), OTHER_EXPENSE(1);
 
-    TransactionType(int type) {
+    Category(int type) {
         this.type = type;
     }
 

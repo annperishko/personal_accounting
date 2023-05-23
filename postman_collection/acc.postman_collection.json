@@ -21,7 +21,7 @@
 							],
 							"port": "8080",
 							"path": [
-								"account",
+								"user",
 								"test@email.com"
 							]
 						}
@@ -35,7 +35,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 2,\n    \"transactionType\": \"EARNING\",\n    \"description\": \"lol2\",\n    \"category\": \"kek2\",\n    \"amount\": 1,\n    \"transactionDate\":\"2022-03-04\"\n}",
+							"raw": "\n    {\n        \"transactionType\": \"EARNING\",\n        \"description\": \"sd\",\n        \"category\": \"SALARY\",\n        \"amount\": 1,\n        \"transactionDate\":\"2012-05-22\"\n    }\n\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -43,7 +43,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/account/test@email.com/save",
+							"raw": "http://localhost:8080/account/test@email.com",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -51,8 +51,7 @@
 							"port": "8080",
 							"path": [
 								"account",
-								"test@email.com",
-								"save"
+								"test@email.com"
 							]
 						}
 					},
@@ -65,7 +64,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "\n    {\n        \"transactionType\": \"expense\",\n        \"description\": \":(\",\n        \"category\": \"food\",\n        \"amount\": 999.99,\n        \"transactionDate\":\"2020-01-03\"\n    }\n\n",
+							"raw": "\n    {\n        \"transactionType\": \"EXPENSE\",\n        \"description\": \"very informative description\",\n        \"category\": \"FOOD\",\n        \"amount\": 1,\n        \"transactionDate\":\"2000-01-03\"\n    }\n\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -73,7 +72,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/account/test@email.com/save",
+							"raw": "http://localhost:8080/account/test@email.com",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -81,8 +80,86 @@
 							"port": "8080",
 							"path": [
 								"account",
-								"test@email.com",
-								"save"
+								"test@email.com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"yopta@email.com\",\n    \"account\":99.99\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\n    {\n        \"transactionType\": \"EXPENSE\",\n        \"description\": \":(\",\n        \"category\": \"food\",\n        \"amount\": 999.99,\n        \"transactionDate\":\"2020-01-03\"\n    }\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user"
 							]
 						}
 					},
@@ -94,7 +171,7 @@
 			"name": "reports_service",
 			"item": [
 				{
-					"name": "get all reports",
+					"name": "all reports",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -122,7 +199,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"startDate\":\"2022-03-04\",\n    \"endDate\":\"2022-03-06\"\n}",
+							"raw": "{\n    \"startDate\":\"2012-05-20\",\n    \"endDate\":\"2012-05-22\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -130,7 +207,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/report/search",
+							"raw": "http://localhost:8081/report/1/range",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -138,7 +215,8 @@
 							"port": "8081",
 							"path": [
 								"report",
-								"search"
+								"1",
+								"range"
 							]
 						}
 					},

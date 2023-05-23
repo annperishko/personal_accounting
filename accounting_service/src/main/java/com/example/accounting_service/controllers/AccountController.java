@@ -1,44 +1,42 @@
 package com.example.accounting_service.controllers;
 
 import com.example.accounting_service.dto.TransactionDto;
-import com.example.accounting_service.dto.UserDto;
+import com.example.accounting_service.exceptions.UserNotFoundException;
 import com.example.accounting_service.services.AccountingService;
-import com.example.accounting_service.services.UserService;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
+
 @RequestMapping("/account")
 @RestController
+@AllArgsConstructor
+@Slf4j
 public class AccountController
 {
     private final AccountingService accountingService;
-    private final UserService userService;
 
-    public AccountController(AccountingService accountingService, UserService userService)
+    @PostMapping("/{email}")
+    public ResponseEntity<Void> saveNewTransaction(@Valid @RequestBody TransactionDto transactionDto, @PathVariable String email)
     {
-        this.accountingService = accountingService;
-        this.userService = userService;
-    }
-
-    @PostMapping("/{email}/save")
-    public ResponseEntity<String> saveNewTransaction(@PathVariable String email, @RequestBody TransactionDto transactionDto)
-    {
-        UserDto userDto = userService.getUserByEmail(email);
-        if(userDto != null)
+        try
         {
-            if(accountingService.saveTransaction(email, transactionDto))
-            {
-                return ResponseEntity.ok( "saved transaction");
-            }
-            else
-            {
-                return new ResponseEntity<>("can`t save transaction", HttpStatus.BAD_REQUEST);
-            }
+            accountingService.saveTransaction(email, transactionDto);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
-        else
+        catch (UserNotFoundException e)
         {
-            return new ResponseEntity<>("User doesn`t exist", HttpStatus.UNAUTHORIZED);
+            log.error("User not found");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch (Throwable e)
+        {
+            log.error("Can`t save transaction");
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
 
     }

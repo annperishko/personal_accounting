@@ -1,24 +1,25 @@
 package com.example.reporting_service.controllers;
 
 import com.example.reporting_service.documents.Transaction;
+import com.example.reporting_service.dto.DateRangeDto;
 import com.example.reporting_service.servises.TransactionService;
-import com.example.reporting_service.utils.DateRangeDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
 @RequestMapping("/report")
+@RestController
 public class ReportingController
 {
     private final TransactionService transactionService;
 
+    @Autowired
     public ReportingController(TransactionService transactionService)
     {
         this.transactionService = transactionService;
     }
-
     @GetMapping()
     public ResponseEntity<List<Transaction>> findAll()
     {
@@ -43,12 +44,12 @@ public class ReportingController
         return ResponseEntity.ok(transactionService.findAllByUserIdAndTransactionType(userId, transactionType));
     }
 
-    @GetMapping("/{userId}/search")
+    @GetMapping("/{userId}/range")
     public ResponseEntity<List<Transaction>> findAllByDateRange(
             @PathVariable Integer userId,
             @RequestBody DateRangeDto range)
     {
-        return ResponseEntity.ok(transactionService.findByUserIdAndDateRange(range, userId));
+        return ResponseEntity.ok(transactionService.findByDateRangeAndUserId(range, userId));
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.reporting_service.utils;
+package com.example.reporting_service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +10,8 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DateRangeDto {
+public class DateRangeDto
+{
     private LocalDate startDate;
     private LocalDate endDate;
 }

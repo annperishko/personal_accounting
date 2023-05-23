@@ -1,5 +1,7 @@
 package com.example.reporting_service.documents;
 
+import com.example.accounting_service.enums.Category;
+import com.example.accounting_service.enums.TransactionType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
@@ -26,11 +28,11 @@ public class Transaction {
     @Field(type = FieldType.Text, name = "id")
     private String id;
     @Field(type = FieldType.Text, name = "transactionType")
-    private String transactionType;
+    private TransactionType transactionType;
     @Field(type = FieldType.Text, name = "description")
     private String description;
     @Field(type = FieldType.Text, name = "category")
-    private String category;
+    private Category category;
     @Field(type = FieldType.Double, name = "amount")
     private BigDecimal amount;
     @Field(type = FieldType.Date, name = "transactionDate", format = DateFormat.date, pattern = "yyyy-MM-dd")
@@ -39,8 +41,9 @@ public class Transaction {
     @Field(type = FieldType.Integer)
     private Integer userId;
 
-    public Transaction(String transactionType, String description,
-                       String category, BigDecimal amount, LocalDate transactionDate, Integer userId) {
+    public Transaction(TransactionType transactionType, String description,
+                       Category category, BigDecimal amount, LocalDate transactionDate, Integer userId)
+    {
         this.transactionType = transactionType;
         this.description = description;
         this.category = category;

@@ -1,64 +1,41 @@
 package com.example.accounting_service.services;
 
-import com.example.accounting_service.dao.UsersRepo;
+import com.example.accounting_service.repositories.UsersRepo;
 import com.example.accounting_service.dto.TransactionDto;
 import com.example.accounting_service.entities.User;
-import com.example.accounting_service.enums.TransactionType;
+import com.example.accounting_service.exceptions.UserNotFoundException;
 import com.example.accounting_service.kafka.KafkaProducer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.Objects;
-
 @Service
-public class AccountingService
-{
-    private static  final Logger LOGGER = LoggerFactory.getLogger(AccountingService.class);
+@AllArgsConstructor
+@Slf4j
+public class AccountingService {
     public final UsersRepo usersRepo;
     private final KafkaProducer kafkaProducer;
 
-    public AccountingService(UsersRepo usersRepo, KafkaProducer kafkaProducer)
+    public void saveTransaction(String email, TransactionDto transactionDto) throws UserNotFoundException
     {
-        this.usersRepo = usersRepo;
-        this.kafkaProducer = kafkaProducer;
-    }
-
-
-    @Transactional
-    public boolean saveTransaction(String email, TransactionDto transactionDto)
-    {
-        try
+        User user = usersRepo.findUserByEmail(email);
+        if (user != null)
         {
-            User user = usersRepo.findUserByEmail(email);
-            if(user != null)
+            transactionDto.setUserId(user.getId());
+            if (transactionDto.getTransactionType().getType() == 0 && transactionDto.getCategory().getType() == 0)
             {
-                transactionDto.setUserId(user.getId());
-                if (Objects.equals(transactionDto.getTransactionType().toUpperCase(), TransactionType.EXPENSE.name()))
-                {
-                    user.setAccount(user.getAccount().subtract(transactionDto.getAmount()));
-                }
-                else if (Objects.equals(transactionDto.getTransactionType().toUpperCase(), TransactionType.EARNING.name()))
-                {
-                    user.setAccount(user.getAccount().add(transactionDto.getAmount()));
-                }
-                else
-                {
-                    LOGGER.debug("Can`t save transaction as such transactionType doesn`t exist");
-                    return false;
-                }
-                kafkaProducer.sendMessage(transactionDto);
-                return true;
+                user.setAccount(user.getAccount().add(transactionDto.getAmount()));
             }
-            else
-                return false;
+            else if (transactionDto.getTransactionType().getType() == 1 && transactionDto.getCategory().getType() == 1)
+            {
+                user.setAccount(user.getAccount().subtract(transactionDto.getAmount()));
+            }
+
+            usersRepo.save(user);
+            kafkaProducer.sendMessage(transactionDto);
         }
-        catch (RuntimeException e)
-        {
-            LOGGER.debug("Can`t save transaction");
-            return false;
-        }
+        else
+            throw new UserNotFoundException("User doesn`t exist");
 
     }
 

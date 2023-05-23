@@ -1,56 +1,57 @@
 package com.example.accounting_service.services;
 
-import com.example.accounting_service.dao.UsersRepo;
+import com.example.accounting_service.repositories.UsersRepo;
 import com.example.accounting_service.dto.UserDto;
 import com.example.accounting_service.entities.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.example.accounting_service.exceptions.UserNotFoundException;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-public class UserService
-{
-    private static  final Logger LOGGER = LoggerFactory.getLogger(AccountingService.class);
+@AllArgsConstructor
+@Slf4j
+public class UserService {
     public final UsersRepo usersRepo;
 
-    public UserService(UsersRepo usersRepo) {
-        this.usersRepo = usersRepo;
-    }
-
-    public UserDto getUserByEmail(String email) {
-        try
-        {
-            User user = usersRepo.findUserByEmail(email);
-            return user.mapToDto();
-
-        }
-        catch (RuntimeException e)
-        {
-            LOGGER.debug("Can`t find user");
-            return null;
-        }
-    }
-    public boolean createUser(UserDto userDto)
+    public UserDto getUserByEmail(String email) throws UserNotFoundException
     {
-        if (userDto != null)
-        {
-            User newUser = new User();
-            newUser.setEmail(userDto.getEmail());
-            newUser.setAccount(userDto.getAccount());
 
-            usersRepo.save(newUser);
-            return true;
+        User user = usersRepo.findUserByEmail(email);
+        if (user != null)
+        {
+            return user.mapToDto();
         }
         else
-            return false;
+        {
+            throw new UserNotFoundException("User not found");
+        }
+
     }
 
-    @Transactional
-    public void deleteUserById(Integer userId)
+    public List<UserDto> getAll()
     {
-        usersRepo.deleteById(userId);
+        return usersRepo.findAll().stream().map(User::mapToDto).collect(Collectors.toList());
+    }
+
+    public void createUser(UserDto userDto)
+    {
+        User newUser = new User();
+        newUser.setEmail(userDto.getEmail());
+        newUser.setAccount(userDto.getAccount());
+        usersRepo.save(newUser);
+    }
+
+    public void deleteUserById(Integer userId) throws UserNotFoundException
+    {
+        if (usersRepo.findById(userId).isPresent())
+        {
+            usersRepo.deleteById(userId);
+        }
+        else throw new UserNotFoundException("User not found");
     }
 
 }

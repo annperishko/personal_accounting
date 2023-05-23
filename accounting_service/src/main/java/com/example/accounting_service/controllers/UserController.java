@@ -1,52 +1,44 @@
 package com.example.accounting_service.controllers;
 
 import com.example.accounting_service.dto.UserDto;
+import com.example.accounting_service.exceptions.UserNotFoundException;
 import com.example.accounting_service.services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.List;
+
 @RequestMapping("/user")
 @RestController
+@AllArgsConstructor
 public class UserController
 {
 
     private final UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
     @GetMapping("/{email}")
-    public ResponseEntity<UserDto> getUser(@PathVariable String email)
+    public ResponseEntity<UserDto> getAllUsers(@PathVariable String email) throws UserNotFoundException
     {
-        UserDto userDto = userService.getUserByEmail(email);
-        if(userDto != null)
-        {
-            return ResponseEntity.ok(userService.getUserByEmail(email));
-        }
-        else
-        {
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        }
+        return ResponseEntity.ok(userService.getUserByEmail(email));
     }
-    @PostMapping("/user")
-    public ResponseEntity<String> createUser(@RequestBody UserDto userDto)
+    @GetMapping()
+    public ResponseEntity<List<UserDto>> getAllUsers()
     {
-
-        if(userService.createUser(userDto))
-        {
-            return ResponseEntity.ok("User created");
-        }
-        else
-        {
-            return new ResponseEntity<>("Can`t create user", HttpStatus.BAD_REQUEST);
-        }
+        return ResponseEntity.ok(userService.getAll());
+    }
+    @PostMapping()
+    public ResponseEntity<Void> createUser(@Valid @RequestBody UserDto userDto)
+    {
+        userService.createUser(userDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/remove/{userId}")
-    public ResponseEntity<String> deleteUserById(@PathVariable int userId) {
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteUserById(@PathVariable int userId) throws UserNotFoundException {
         userService.deleteUserById(userId);
-        return ResponseEntity.ok("Deleted user");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
