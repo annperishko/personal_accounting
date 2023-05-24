@@ -35,7 +35,9 @@ public class AccountingService {
             kafkaProducer.sendMessage(transactionDto);
         }
         else
-            throw new UserNotFoundException("User doesn`t exist");
+        {
+            throw new UserNotFoundException("User not found");
+        }
 
     }
 

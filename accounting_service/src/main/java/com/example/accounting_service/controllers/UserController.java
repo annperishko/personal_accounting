@@ -20,7 +20,7 @@ public class UserController
     private final UserService userService;
 
     @GetMapping("/{email}")
-    public ResponseEntity<UserDto> getAllUsers(@PathVariable String email) throws UserNotFoundException
+    public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email) throws UserNotFoundException
     {
         return ResponseEntity.ok(userService.getUserByEmail(email));
     }

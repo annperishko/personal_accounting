@@ -21,24 +21,12 @@ public class AccountController
     private final AccountingService accountingService;
 
     @PostMapping("/{email}")
-    public ResponseEntity<Void> saveNewTransaction(@Valid @RequestBody TransactionDto transactionDto, @PathVariable String email)
+    public ResponseEntity<Void> saveNewTransaction(@Valid @RequestBody TransactionDto transactionDto,
+                                                   @PathVariable String email) throws UserNotFoundException
     {
-        try
-        {
+
             accountingService.saveTransaction(email, transactionDto);
             return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (UserNotFoundException e)
-        {
-            log.error("User not found");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        catch (Throwable e)
-        {
-            log.error("Can`t save transaction");
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-        }
-
     }
 
 }
