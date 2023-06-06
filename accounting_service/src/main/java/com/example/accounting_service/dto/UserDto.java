@@ -10,8 +10,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserDto
-{
+public class UserDto {
     private Integer id;
     @NotBlank(message = "Can`t be empty")
     private String email;

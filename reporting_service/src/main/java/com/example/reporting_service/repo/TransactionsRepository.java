@@ -8,12 +8,13 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
 import java.util.List;
 
-
-public interface TransactionsRepository extends ElasticsearchRepository<Transaction, String>
-{
+public interface TransactionsRepository extends ElasticsearchRepository<Transaction, String> {
     List<Transaction> findAll();
+
     List<Transaction> findAllByUserId(Integer userId);
+
     List<Transaction> findAllByUserIdAndTransactionType(Integer userId, String transactionType);
+
     List<Transaction> findAllByUserIdAndCategory(Integer userId, String category);
 
     @Query("{\n" +

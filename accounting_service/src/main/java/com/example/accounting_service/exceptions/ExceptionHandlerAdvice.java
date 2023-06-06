@@ -19,9 +19,17 @@ public class ExceptionHandlerAdvice {
         return errorMap;
     }
 
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(NotCompatibleCategory.class)
+    public Map<String, String> handleCategoryAndTypeCompatibility(NotCompatibleCategory ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("errorMessage", ex.getMessage());
+        return errorMap;
+    }
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(UserNotFoundException.class)
-    public Map<String, String> handleBusinessException(UserNotFoundException ex) {
+    public Map<String, String> handleUserNotFoundException(UserNotFoundException ex) {
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put("errorMessage", ex.getMessage());
         return errorMap;

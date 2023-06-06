@@ -4,7 +4,10 @@ import com.example.accounting_service.enums.Category;
 import com.example.accounting_service.enums.TransactionType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -42,8 +45,7 @@ public class Transaction {
     private Integer userId;
 
     public Transaction(TransactionType transactionType, String description,
-                       Category category, BigDecimal amount, LocalDate transactionDate, Integer userId)
-    {
+                       Category category, BigDecimal amount, LocalDate transactionDate, Integer userId) {
         this.transactionType = transactionType;
         this.description = description;
         this.category = category;

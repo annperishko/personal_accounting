@@ -3,25 +3,19 @@ package com.example.reporting_service.kafka;
 import com.example.accounting_service.dto.TransactionDto;
 import com.example.reporting_service.documents.Transaction;
 import com.example.reporting_service.servises.TransactionService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 @Service
-@Slf4j
-public class KafkaConsumer
-{
+public class KafkaConsumer {
     private final TransactionService transactionService;
 
-    public KafkaConsumer(TransactionService transactionService)
-    {
+    public KafkaConsumer(TransactionService transactionService) {
         this.transactionService = transactionService;
     }
 
     @KafkaListener(topics = "${spring.kafka.topic.name}", groupId = "test")
-    public void consume(TransactionDto transactionDto)
-    {
-        log.debug("Received transaction dto");
+    public void consume(TransactionDto transactionDto) {
         Transaction transaction = new Transaction(
                 transactionDto.getTransactionType(),
                 transactionDto.getDescription(),

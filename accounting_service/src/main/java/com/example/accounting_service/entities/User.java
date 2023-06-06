@@ -12,8 +12,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Table(name = "users")
-public class User
-{
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -22,8 +21,8 @@ public class User
     private String email;
     @Column(nullable = false, name = "account")
     private BigDecimal account;
-    public UserDto mapToDto()
-    {
+
+    public UserDto mapToDto() {
         UserDto userDto = new UserDto();
         userDto.setId(this.getId());
         userDto.setEmail(this.getEmail());

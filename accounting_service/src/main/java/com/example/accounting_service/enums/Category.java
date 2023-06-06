@@ -1,16 +1,16 @@
 package com.example.accounting_service.enums;
 
 public enum Category {
-    SALARY(0), POCKET(0), OTHER_EARNING(0),
-    FOOD(1), MEDICINE(1), EDUCATION(1), OTHER_EXPENSE(1);
+    SALARY(TransactionType.EARNING), POCKET(TransactionType.EARNING), OTHER_EARNING(TransactionType.EARNING),
+    FOOD(TransactionType.EXPENSE), MEDICINE(TransactionType.EXPENSE), EDUCATION(TransactionType.EXPENSE), OTHER_EXPENSE(TransactionType.EXPENSE);
 
-    Category(int type) {
+    Category(TransactionType type) {
         this.type = type;
     }
 
-    private final int type;
+    private final TransactionType type;
 
-    public int getType() {
+    public TransactionType getType() {
         return type;
     }
 }

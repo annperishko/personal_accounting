@@ -16,8 +16,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TransactionDto
-{
+public class TransactionDto {
     @NotNull(message = "Type can`t be null")
     private TransactionType transactionType;
     private String description;

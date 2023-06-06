@@ -1,5 +1,7 @@
 package com.example.accounting_service.services;
 
+import com.example.accounting_service.enums.TransactionType;
+import com.example.accounting_service.exceptions.NotCompatibleCategory;
 import com.example.accounting_service.repositories.UsersRepo;
 import com.example.accounting_service.dto.TransactionDto;
 import com.example.accounting_service.entities.User;
@@ -13,29 +15,28 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 @Slf4j
 public class AccountingService {
-    public final UsersRepo usersRepo;
+    private final UsersRepo usersRepo;
     private final KafkaProducer kafkaProducer;
+    private final static TransactionType EARNING_TYPE = TransactionType.EARNING;
+    private final static TransactionType EXPENSE_TYPE = TransactionType.EXPENSE;
 
-    public void saveTransaction(String email, TransactionDto transactionDto) throws UserNotFoundException
-    {
+    public void saveTransaction(String email, TransactionDto transactionDto) {
         User user = usersRepo.findUserByEmail(email);
-        if (user != null)
-        {
-            transactionDto.setUserId(user.getId());
-            if (transactionDto.getTransactionType().getType() == 0 && transactionDto.getCategory().getType() == 0)
-            {
-                user.setAccount(user.getAccount().add(transactionDto.getAmount()));
-            }
-            else if (transactionDto.getTransactionType().getType() == 1 && transactionDto.getCategory().getType() == 1)
-            {
-                user.setAccount(user.getAccount().subtract(transactionDto.getAmount()));
+        if (user != null) {
+            if(transactionDto.getTransactionType() == transactionDto.getCategory().getType()) {
+                transactionDto.setUserId(user.getId());
+                if (transactionDto.getTransactionType() == EARNING_TYPE) {
+                    user.setAccount(user.getAccount().add(transactionDto.getAmount()));
+                } else if (transactionDto.getTransactionType() == EXPENSE_TYPE) {
+                    user.setAccount(user.getAccount().subtract(transactionDto.getAmount()));
+                }
+                usersRepo.save(user);
+                kafkaProducer.sendMessage(transactionDto);
+            } else {
+                throw new NotCompatibleCategory("Type of category " + transactionDto.getCategory() + " is not compatible with transaction type " + transactionDto.getTransactionType());
             }
 
-            usersRepo.save(user);
-            kafkaProducer.sendMessage(transactionDto);
-        }
-        else
-        {
+        } else {
             throw new UserNotFoundException("User not found");
         }
 

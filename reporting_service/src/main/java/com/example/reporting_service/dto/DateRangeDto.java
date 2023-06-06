@@ -10,8 +10,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DateRangeDto
-{
+public class DateRangeDto {
     private LocalDate startDate;
     private LocalDate endDate;
 }

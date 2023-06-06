@@ -1,16 +1,6 @@
 package com.example.accounting_service.enums;
 
-public enum TransactionType
-{
-    EARNING(0), EXPENSE(1);
+public enum TransactionType {
+    EARNING, EXPENSE;
 
-    TransactionType(int type) {
-        this.type = type;
-    }
-
-    private final int type;
-
-    public int getType() {
-        return type;
-    }
 }
