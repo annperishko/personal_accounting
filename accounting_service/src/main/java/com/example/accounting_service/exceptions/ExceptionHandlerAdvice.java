@@ -1,6 +1,10 @@
 package com.example.accounting_service.exceptions;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -32,6 +36,42 @@ public class ExceptionHandlerAdvice {
     public Map<String, String> handleUserNotFoundException(UserNotFoundException ex) {
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put("errorMessage", ex.getMessage());
+        return errorMap;
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public Map<String, String> handleEmailExistsException(EmailAlreadyExistsException ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("errorMessage", ex.getMessage());
+        return errorMap;
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(AuthenticationException.class)
+    public Map<String, String> handleEmailExistsException(AuthenticationException ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("errorMessage", ex.getMessage());
+        return errorMap;
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(OAuthAuthenticationException.class)
+    public Map<String, String> handleAuthenticationException(OAuthAuthenticationException ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("errorType", ex.getClass().getSimpleName());
+
+        return errorMap;
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(AccountLockedException.class)
+    public Map<String, String> handleAccountLockedException(AccountLockedException ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("errorMessage", ex.getMessage());
+        errorMap.put("errorType", "ACCOUNT_LOCKED");
+        errorMap.put("lockTimeRemaining", ex.getFormattedLockTime());
+        errorMap.put("lockTimeRemainingSeconds", String.valueOf(ex.getLockTimeRemainingSeconds()));
         return errorMap;
     }
 }

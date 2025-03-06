@@ -1,0 +1,47 @@
+.form-container {
+    width: 45%;
+    padding: 20px;
+    background-color: #9DB2BF;
+  border: 1px solid #526D82;
+  border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow-y: auto;
+  }
+
+.google-login-container {
+  margin-top: 15px;
+}
+
+.google-login-btn {
+  background-color: #5d8bda;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #526D82;
+  background-color: #b9cedc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 15px;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}

@@ -1,0 +1,27 @@
+.full-body
+{
+    width: 100%;
+    min-height: 100vh;
+    height: 100%;
+    background-color: #ecf2f6;
+    padding: 3% 50px 0;
+}
+
+.form
+{
+    max-width: 460px;
+    min-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+    background: #fff;
+    border: 1px solid #d7d7d7;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 40px 69px 70px 69px;
+}
+
+.form-heading
+{
+    width: 100%;
+    margin-bottom: 60px;
+}
