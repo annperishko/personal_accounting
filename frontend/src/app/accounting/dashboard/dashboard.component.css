@@ -1,0 +1,125 @@
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #27374D;
+  color: white;
+  padding: 20px 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.toolbar-left {
+  display: flex;
+  align-items: center;
+}
+.profile-name-container
+{
+  display: flex;
+}
+
+.fa-circle-user {
+  height: 55px;
+  width: 55px;
+  font-size: 17px;
+  color: #000000;
+  z-index: 1000 !important;
+}
+
+
+.profile-name {
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+.profile-name:hover {
+  background-color: rgba(255,255,255,0.1);
+}
+
+.dropdown {
+  position: relative;
+}
+
+.logout-button {
+  position: relative;
+  top: 100%;
+  left: 0;
+  background-color: #9DB2BF;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  min-width: 120px;
+  margin-top: 4px;
+}
+
+.dropdown-menu button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+}
+
+.dropdown-menu button:hover {
+  background-color: #9DB2BF;
+}
+
+.dashboard-container {
+  display: flex;
+  padding: 20px;
+  height: calc(100vh - 56px);
+}
+
+.transaction-form-container {
+  width: 35%;
+  padding: 20px;
+  background-color: #9DB2BF;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-right: 20px;
+  overflow-y: auto;
+}
+
+.reports-container {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #9DB2BF;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #1e1e1e;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.icon{
+  position: relative;
+
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #526D82;
+  background-color: #b9cedc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+textarea {
+  resize: vertical;
+}
+

@@ -4,6 +4,7 @@ import com.example.accounting_service.dto.UserDto;
 import com.example.accounting_service.services.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @Slf4j
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class UserController {
     private final UserService userService;
 
@@ -30,7 +32,7 @@ public class UserController {
 
     @PostMapping()
     public ResponseEntity<Void> createUser(@Valid @RequestBody UserDto userDto) {
-        if (!userService.isUserEmailAlreadyUsed(userDto.getEmail())) {
+        if (!userService.isUserEmailAlreadyUsed(userDto.getEmail()) && Strings.isNotBlank(userDto.getPassword())) {
             userService.createUser(userDto);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } else {

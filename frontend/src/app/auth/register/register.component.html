@@ -1,0 +1,71 @@
+<div class="form-container">
+    <h2>User Registration</h2>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="name">Name*</label>
+            <input
+                    id="name"
+                    type="text"
+                    name="name"
+                    [(ngModel)]="user.name"
+                    required
+                    #name="ngModel" >
+            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="error">
+                <div *ngIf="name.errors?.['required']">Name is required</div>
+                <div *ngIf="errorMessage">
+                    {{ errorMessage }}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="surname">Surname*</label>
+            <input
+                    id="surname"
+                    type="text"
+                    name="surname"
+                    [(ngModel)]="user.surname"
+                    required
+                    #surname="ngModel">
+            <div *ngIf="surname.invalid && (surname.dirty || surname.touched)" class="error">
+                <div *ngIf="surname.errors?.['required']">Surname is required</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="email">Email*</label>
+        <input
+                id="email"
+                type="email"
+                name="email"
+                [(ngModel)]="user.email"
+                required
+                email
+                #email="ngModel">
+        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="error">
+            <div *ngIf="email.errors?.['required']">Email is required</div>
+            <div *ngIf="email.errors?.['email']">Invalid email format</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password*</label>
+        <input
+                id="password"
+                type="password"
+                name="password"
+                [(ngModel)]="user.password"
+                required
+                #password="ngModel">
+        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="error">
+            <div *ngIf="password.errors?.['required']">Password is required</div>
+        </div>
+    </div>
+
+    <div class="button-group">
+        <button type="button" class="back-btn" (click)="goBack()">Back</button>
+        <button type="button" (click)="onSubmit()" [disabled]="!isFormValid()">Register</button>
+    </div>
+</div>

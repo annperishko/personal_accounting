@@ -14,6 +14,7 @@ import javax.validation.Valid;
 @RestController
 @AllArgsConstructor
 @Slf4j
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class AccountController {
     private final AccountingService accountingService;
 

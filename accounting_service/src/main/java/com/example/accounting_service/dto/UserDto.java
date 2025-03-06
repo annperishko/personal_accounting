@@ -1,9 +1,11 @@
 package com.example.accounting_service.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @AllArgsConstructor
@@ -11,10 +13,14 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class UserDto {
-    private Integer id;
     @NotBlank(message = "Can`t be empty")
     private String email;
-    @NotNull(message = "Can`t be null")
+    private String name;
+    private String surname;
     private BigDecimal account;
+    @NotBlank(message = "Can`t be empty")
+    private String password;
+    private Integer role;
+    private String authProvider;
 
 }

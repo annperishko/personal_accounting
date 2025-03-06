@@ -1,0 +1,16 @@
+<div class="notification-container">
+  <div
+    *ngFor="let notification of notifications"
+    class="notification notification-{{notification.type}}"
+    [@fadeInOut]
+    (click)="removeNotification(notification.id)">
+    <div class="notification-icon">
+      <i *ngIf="notification.type === 'success'" class="fas fa-check-circle"></i>
+      <i *ngIf="notification.type === 'error'" class="fas fa-exclamation-circle"></i>
+      <i *ngIf="notification.type === 'warning'" class="fas fa-exclamation-triangle"></i>
+      <i *ngIf="notification.type === 'info'" class="fas fa-info-circle"></i>
+    </div>
+    <div class="notification-message">{{notification.message}}</div>
+    <div class="notification-close">×</div>
+  </div>
+</div>
